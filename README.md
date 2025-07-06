@@ -1,6 +1,3 @@
-<<<<<<< HEAD
-# prayer-reminder
-=======
 # shalat_reminder
 
 A new Flutter project.
