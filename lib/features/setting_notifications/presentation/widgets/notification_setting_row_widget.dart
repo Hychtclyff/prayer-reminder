@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shalat_reminder/features/setting_notifications/data/model/setting_notification_model.dart';
+import 'package:shalat_reminder/features/setting_notifications/data/services/notification_service.dart';
 
 /// Widget untuk satu baris pengaturan notifikasi yang telah diperbarui.
 class NotificationSettingRow extends StatelessWidget {
@@ -188,6 +189,33 @@ class NotificationSettingRow extends StatelessWidget {
                       ],
                     ),
                   
+                  ElevatedButton(
+                    
+                    onPressed: () {
+                      // Menampilkan notifikasi langsung
+                      NotificationService().showNotification(
+                        0,
+                        "Notifikasi Sederhana",
+                        "Ini adalah isi dari notifikasi.",
+                      );
+                    },
+                    child: Text("Tampilkan Notifikasi"),
+                  ),
+
+                  ElevatedButton(
+                    onPressed: () {
+                      // Menjadwalkan notifikasi untuk 10 detik dari sekarang
+                      final scheduledTime =
+                          DateTime.now().add(Duration(seconds: 10));
+                      NotificationService().scheduleNotification(
+                        1,
+                        "Notifikasi Terjadwal",
+                        "Notifikasi ini akan muncul dalam 10 detik.",
+                        scheduledTime,
+                      );
+                    },
+                    child: Text("Jadwalkan Notifikasi"),
+                  )
                 ],
               ),
             ),
