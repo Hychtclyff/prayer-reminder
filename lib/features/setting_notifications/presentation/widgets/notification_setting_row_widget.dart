@@ -187,6 +187,7 @@ class NotificationSettingRow extends StatelessWidget {
                         ),
                       ],
                     ),
+                  
                 ],
               ),
             ),
