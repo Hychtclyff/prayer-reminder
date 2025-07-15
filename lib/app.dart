@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:shalat_reminder/core/router/app_routes.dart';
 // import 'package:shalat_reminder/screens/home.dart';
+import 'package:shalat_reminder/core/theme/app_theme.dart';
 
 class ShalatReminderApp extends StatelessWidget {
   const ShalatReminderApp({super.key});
@@ -11,13 +11,11 @@ class ShalatReminderApp extends StatelessWidget {
     return MaterialApp.router(
       debugShowCheckedModeBanner: false,
       title: 'Shalat Reminder',
-      theme: ThemeData(
-        brightness: Brightness.dark,
-        primarySwatch: Colors.teal,
-        scaffoldBackgroundColor: const Color(0xFF0E1924),
-        textTheme: GoogleFonts.poppinsTextTheme(ThemeData.dark().textTheme),
-        useMaterial3: true,
-      ),
+      // Atur tema di sini
+      theme: AppTheme.lightTheme,
+      darkTheme: AppTheme.darkTheme,
+      themeMode: ThemeMode.dark,
+
       routerConfig: AppRouter.router,
     );
   }

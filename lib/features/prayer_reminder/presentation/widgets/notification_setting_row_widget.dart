@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:shalat_reminder/features/prayer_reminder/data/models/setting_notification_model.dart';
-import 'package:shalat_reminder/features/prayer_reminder/data/services/notification_service.dart';
 
 /// Widget untuk satu baris pengaturan notifikasi yang telah diperbarui.
 class NotificationSettingRow extends StatelessWidget {

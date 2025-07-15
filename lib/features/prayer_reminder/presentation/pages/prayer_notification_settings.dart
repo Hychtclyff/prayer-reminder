@@ -1,6 +1,7 @@
-import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:shalat_reminder/features/prayer_reminder/data/models/setting_notification_model.dart';
+import 'package:shalat_reminder/features/prayer_reminder/presentation/providers/settings_provider.dart';
 import 'package:shalat_reminder/features/prayer_reminder/presentation/widgets/notification_setting_row_widget.dart';
 import 'package:shalat_reminder/core/constants/app_constants.dart';
 
@@ -13,13 +14,10 @@ class NotificationSettingsPage extends StatefulWidget {
 }
 
 class _NotificationSettingsPageState extends State<NotificationSettingsPage> {
-  final Map<String, PrayerNotificationSetting> _notificationSettings = {
-    for (var prayer in prayerTimesMock)
-      prayer['name'] as String: PrayerNotificationSetting(),
-  };
-
   @override
   Widget build(BuildContext context) {
+    final settingsProvider = context.watch<SettingsProvider>();
+    final settingsMap = settingsProvider.settings;
     return Scaffold(
       appBar: AppBar(
         title: const Text('Pengaturan Notifikasi'),
@@ -44,15 +42,18 @@ class _NotificationSettingsPageState extends State<NotificationSettingsPage> {
                 itemBuilder: (context, index) {
                   final prayer = prayerTimesMock[index];
                   final prayerName = prayer['name'];
-                  final currentSetting = _notificationSettings[prayerName]!;
+                  final currentSetting =
+                      settingsMap[prayerName] ?? PrayerNotificationSetting();
 
                   return NotificationSettingRow(
                     prayerName: prayerName,
                     setting: currentSetting,
                     onChanged: (newSetting) {
-                      setState(() {
-                        _notificationSettings[prayerName] = newSetting;
-                      });
+                      // Panggil method provider untuk update dan simpan data
+                      context
+                          .read<SettingsProvider>()
+                          .updateSetting(prayerName, newSetting);
+
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
                           content:

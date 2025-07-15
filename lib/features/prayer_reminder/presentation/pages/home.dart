@@ -111,16 +111,15 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
       body: Column(
         children: [
           HomeHeader(
-            gregorianDate: _gregorianDate,
-            hijriDate: _hijriDate,
-            location: "Bukittinggi, Sumbar",
-            backgroundImagePath: _getTimeBasedBackground,
-            nextPrayerName: prayerTimesMock[nextPrayerIndex]['name'],
-            nextPrayerTime: prayerTimesMock[nextPrayerIndex]['time'],
-            countdown: prayerProvider.countdown,
-            onNotificationTap: () =>
-                context.goNamed(AppRoutes.notificationSettings),
-          ),
+              gregorianDate: _gregorianDate,
+              hijriDate: _hijriDate,
+              location: "Bukittinggi, Sumbar",
+              backgroundImagePath: _getTimeBasedBackground,
+              nextPrayerName: prayerTimesMock[nextPrayerIndex]['name'],
+              nextPrayerTime: prayerTimesMock[nextPrayerIndex]['time'],
+              countdown: prayerProvider.countdown,
+              onNotificationTap: () =>
+                  context.pushNamed(AppRoutes.notificationSettings)),
           Expanded(
             child: ListView.builder(
               padding: const EdgeInsets.only(top: 10),

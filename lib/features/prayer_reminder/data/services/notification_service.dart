@@ -21,7 +21,6 @@ class NotificationService {
           defaultColor: Colors.teal,
           importance: NotificationImportance.Max,
           // soundSource: 'resource://raw/adzan',
-          
         )
       ],
       debug: true,
@@ -47,13 +46,38 @@ class NotificationService {
         title: 'Waktunya Sholat $prayerName',
         body: 'Saatnya menunaikan sholat $prayerName.',
         notificationLayout: NotificationLayout.Default,
-        fullScreenIntent: true, // Agar muncul seperti alarm
+        fullScreenIntent: true,
+        
       ),
       schedule: NotificationCalendar(
         hour: hour,
         minute: minute,
         second: 0,
         repeats: true, // Otomatis berulang setiap hari
+      ),
+    );
+  }
+
+  Future<void> scheduleReminderPrayerNotification(int id, String prayerName,
+      int hour, int minute, int reminderMinutes) async {
+    final prayerTime = DateTime(2025, 1, 1, hour, minute);
+    final reminderTime =
+        prayerTime.subtract(Duration(minutes: reminderMinutes));
+
+    await AwesomeNotifications().createNotification(
+      content: NotificationContent(
+        id: id,
+        channelKey: 'scheduled_channel',
+        title: 'Pengingat: Sholat $prayerName',
+        body: 'Waktu sholat akan masuk dalam $reminderMinutes menit.',
+        notificationLayout: NotificationLayout.Default,
+        fullScreenIntent: true,
+      ),
+      schedule: NotificationCalendar(
+        hour: reminderTime.hour,
+        minute: reminderTime.minute,
+        second: 0,
+        repeats: true,
       ),
     );
   }

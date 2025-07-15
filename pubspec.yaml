@@ -41,6 +41,7 @@ dependencies:
   flutter_local_notifications: ^19.3.0
   timezone: ^0.10.1
   awesome_notifications: ^0.8.2
+  shared_preferences: ^2.5.3
   # flutter_compass: ^0.7.0
 
 dev_dependencies:
