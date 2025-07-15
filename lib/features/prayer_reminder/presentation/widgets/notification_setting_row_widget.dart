@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:shalat_reminder/features/setting_notifications/data/model/setting_notification_model.dart';
-import 'package:shalat_reminder/features/setting_notifications/data/services/notification_service.dart';
+import 'package:shalat_reminder/features/prayer_reminder/data/models/setting_notification_model.dart';
+import 'package:shalat_reminder/features/prayer_reminder/data/services/notification_service.dart';
 
 /// Widget untuk satu baris pengaturan notifikasi yang telah diperbarui.
 class NotificationSettingRow extends StatelessWidget {
@@ -172,50 +172,27 @@ class NotificationSettingRow extends StatelessWidget {
 
                   // Tampilkan pengaturan waktu hanya jika pengingat sebelum adzan aktif
                   if (setting.reminderEnabled)
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    // TAMBAHKAN Column di sini untuk membungkus semua widget
+                    Column(
                       children: [
-                        const Text('Waktu pengingat',
-                            style: TextStyle(color: Colors.white70)),
-                        TextButton(
-                          // Panggil fungsi _showMinutesPicker saat ditekan
-                          onPressed: () => _showMinutesPicker(context),
-                          child: Text(
-                            '${setting.reminderMinutes} menit sebelumnya',
-                            style: const TextStyle(
-                                color: Colors.orange, fontSize: 12),
-                          ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            const Text('Waktu pengingat',
+                                style: TextStyle(color: Colors.white70)),
+                            TextButton(
+                              onPressed: () => _showMinutesPicker(context),
+                              child: Text(
+                                '${setting.reminderMinutes} menit sebelumnya',
+                                style: const TextStyle(
+                                    color: Colors.orange, fontSize: 12),
+                              ),
+                            ),
+                          ],
                         ),
+                        // Tombol-tombol ini sekarang berada di dalam Column
                       ],
-                    ),
-                  
-                  ElevatedButton(
-                    
-                    onPressed: () {
-                      // Menampilkan notifikasi langsung
-                      NotificationService().showNotification(
-                        0,
-                        "Notifikasi Sederhana",
-                        "Ini adalah isi dari notifikasi.",
-                      );
-                    },
-                    child: Text("Tampilkan Notifikasi"),
-                  ),
-
-                  ElevatedButton(
-                    onPressed: () {
-                      // Menjadwalkan notifikasi untuk 10 detik dari sekarang
-                      final scheduledTime =
-                          DateTime.now().add(Duration(seconds: 10));
-                      NotificationService().scheduleNotification(
-                        1,
-                        "Notifikasi Terjadwal",
-                        "Notifikasi ini akan muncul dalam 10 detik.",
-                        scheduledTime,
-                      );
-                    },
-                    child: Text("Jadwalkan Notifikasi"),
-                  )
+                    )
                 ],
               ),
             ),

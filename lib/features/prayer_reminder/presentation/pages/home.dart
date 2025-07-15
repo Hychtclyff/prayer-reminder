@@ -1,13 +1,15 @@
+// lib/features/prayer_reminder/presentation/pages/home_page.dart
+
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hijri_calendar/hijri_calendar.dart';
+import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
+import 'package:shalat_reminder/core/constants/app_constants.dart';
+import 'package:shalat_reminder/core/router/app_routes.dart';
 import 'package:shalat_reminder/features/prayer_reminder/presentation/providers/prayer_provider.dart';
 import 'package:shalat_reminder/features/prayer_reminder/presentation/widgets/home_header_widget.dart';
 import 'package:shalat_reminder/features/prayer_reminder/presentation/widgets/prayer_time_row_widget.dart';
-import 'package:intl/intl.dart';
-import 'package:shalat_reminder/core/router/app_routes.dart';
-import 'package:provider/provider.dart';
-import 'package:shalat_reminder/core/constants/app_constants.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -16,7 +18,49 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
+  String _gregorianDate = '';
+  String _hijriDate = '';
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+    _setDate();
+  }
+
+  void _setDate() {
+    final now = DateTime.now();
+    final hijri = HijriCalendarConfig.now();
+    _gregorianDate = DateFormat('EEE, d MMM yyyy', 'id_ID').format(now);
+    _hijriDate = _formatHijriDate(hijri);
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    super.didChangeAppLifecycleState(state);
+    final prayerProvider = context.read<PrayerProvider>();
+
+    switch (state) {
+      case AppLifecycleState.resumed:
+        prayerProvider.startUiTimer();
+        setState(() =>
+            _setDate()); // Update tanggal jika aplikasi dibuka di hari berbeda
+        break;
+      case AppLifecycleState.paused:
+        prayerProvider.stopUiTimer();
+        break;
+      default:
+        break;
+    }
+  }
+
   String get _getTimeBasedBackground {
     final hour = DateTime.now().hour;
     if (hour >= 5 && hour < 10) return 'assets/images/morning.jpeg';
@@ -59,7 +103,6 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     final prayerProvider = context.watch<PrayerProvider>();
-    final hijri = HijriCalendarConfig.now();
     final nextPrayerIndex = prayerProvider.nextPrayerIndex;
     final sortedPrayerTimes = prayerTimesMock.sublist(nextPrayerIndex)
       ..addAll(prayerTimesMock.sublist(0, nextPrayerIndex));
@@ -68,16 +111,15 @@ class _HomePageState extends State<HomePage> {
       body: Column(
         children: [
           HomeHeader(
-            gregorianDate: DateFormat('EEE, d MMM yyyy').format(DateTime.now()),
-            hijriDate: _formatHijriDate(hijri),
+            gregorianDate: _gregorianDate,
+            hijriDate: _hijriDate,
             location: "Bukittinggi, Sumbar",
             backgroundImagePath: _getTimeBasedBackground,
             nextPrayerName: prayerTimesMock[nextPrayerIndex]['name'],
             nextPrayerTime: prayerTimesMock[nextPrayerIndex]['time'],
-            countdown: prayerProvider.countdown, // <- Dari Provider
-            onNotificationTap: () {
-              context.goNamed(AppRoutes.notificationSettings);
-            },
+            countdown: prayerProvider.countdown,
+            onNotificationTap: () =>
+                context.goNamed(AppRoutes.notificationSettings),
           ),
           Expanded(
             child: ListView.builder(

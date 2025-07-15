@@ -1,6 +1,6 @@
 import 'package:go_router/go_router.dart';
 import 'package:shalat_reminder/features/prayer_reminder/presentation/pages/home.dart';
-import 'package:shalat_reminder/features/setting_notifications/presentation/pages/notification.dart';
+import 'package:shalat_reminder/features/prayer_reminder/presentation/pages/prayer_notification_settings.dart';
 
 /// Kelas ini berfungsi sebagai pusat definisi nama dan path rute.
 /// Menggunakan konstanta untuk mencegah kesalahan pengetikan (typo).

@@ -23,6 +23,8 @@ class PrayerTimeService {
 
     if (difference.isNegative) return "Waktu telah tiba";
 
+    
+
     return '-${difference.inHours.toString().padLeft(2, '0')}:'
         '${difference.inMinutes.remainder(60).toString().padLeft(2, '0')}:'
         '${difference.inSeconds.remainder(60).toString().padLeft(2, '0')}';

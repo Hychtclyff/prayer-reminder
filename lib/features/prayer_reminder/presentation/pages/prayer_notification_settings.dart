@@ -1,6 +1,7 @@
+import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
-import 'package:shalat_reminder/features/setting_notifications/data/model/setting_notification_model.dart';
-import 'package:shalat_reminder/features/setting_notifications/presentation/widgets/notification_setting_row_widget.dart';
+import 'package:shalat_reminder/features/prayer_reminder/data/models/setting_notification_model.dart';
+import 'package:shalat_reminder/features/prayer_reminder/presentation/widgets/notification_setting_row_widget.dart';
 import 'package:shalat_reminder/core/constants/app_constants.dart';
 
 class NotificationSettingsPage extends StatefulWidget {
